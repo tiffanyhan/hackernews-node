@@ -1,6 +1,11 @@
 type Query {
     info: String!
-    feed: [Link!]!
+    feed(
+        filter: String,
+        skip: Int,
+        first: Int,
+        orderBy: LinkOrderByInput
+    ): Feed!
     link(id: ID!): Link
 }
 
@@ -11,6 +16,11 @@ type Mutation {
     updateLink(id: ID!, url: String, description: String): Link
     deleteLink(id: ID!): Link
     vote(linkId: ID!): Vote
+}
+
+type Feed {
+    links: [Link!]!
+    count: Int!
 }
 
 type Link {
@@ -42,4 +52,13 @@ type Vote {
 type Subscription {
     newLink: Link
     newVote: Vote
+}
+
+enum LinkOrderByInput {
+    description_ASC
+    description_DESC
+    url_ASC
+    url_DESC
+    createdAt_ASC
+    createdAt_DESC
 }
